@@ -316,6 +316,12 @@ RATE_LIMIT_MAX=100
 
 ## Development Guidelines
 
+### Git Workflow
+- **IMPORTANT**: Automatically commit all file changes to Git after modifications
+- Use descriptive commit messages in English
+- Include details of what was changed and why
+- Add the Claude Code signature to commits
+
 ### Code Standards
 - Use ES6+ JavaScript features and TypeScript
 - Follow Airbnb ESLint configuration
