@@ -4,183 +4,359 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AI-powered 3D model generator for creating trend toys. The project uses AI to generate creative 3D models suitable for trend toys, collectibles, and designer toys. Currently in initial development phase with core architecture established.
+AMIO - AI-powered 3D model generator platform combining "PopMart + OnlyFans + AI". The platform enables users to create personalized IP toys and merchandise using AI technology, with social community features and connection to 3D printing for physical production.
+
+## Core Features
+
+### 1. 社区 (Community) - Default Tab
+- **Gallery**: Waterfall layout displaying user creations
+- **Coin Support System**: Users can support creators with virtual coins
+- **Price Trend Charts**: Track value changes of popular designs
+- **Trending**: Showcase new and popular designs
+- **Social Sharing**: Integration with Xiaohongshu and Instagram
+
+### 2. 创作 (Creation)
+- **Sketch Generation**:
+  - Celebrity/character selection with domain tags (e.g., "golf")
+  - AI-powered information retrieval and analysis using GPT
+  - 3D word cloud visualization of related information
+  - Style selection (blind box, plush toy, keychain, etc.)
+  - Material selection (plush, vinyl, etc.)
+  - Custom style upload or reference (e.g., "LABUBU")
+- **Sketch Modification**: Edit and refine generated sketches
+- **Animation Generation**: Create animations using Google Veo-3 API
+- **Social Media Export**: Generate captions and hashtags for sharing
+
+### 3. 生产 (Production)
+- **3D Model Generation**: Convert AI sketches to 3D models
+- **Face Customization System**: Interactive 3D model editing
+- **Manufacturing Integration**: 3D printing order processing
+- **Discount System**: Social media engagement-based pricing
 
 ## Technology Stack
 
-- **Backend**: Node.js with Express.js (v4.18.2)
-- **3D Graphics**: Three.js (v0.155.0) for 3D rendering and manipulation
-- **Real-time Communication**: WebSockets (ws v8.14.2)
-- **HTTP Client**: Axios (v1.5.0) for API integration
-- **File Handling**: Multer (v1.4.5) for multipart/form-data
+### Frontend
+- **Framework**: React 18.x with TypeScript
+- **3D Graphics**: Three.js (v0.155.0) with React Three Fiber
+- **UI Library**: Tailwind CSS + Shadcn/ui (artistic style like Patreon)
+- **State Management**: Zustand
+- **Routing**: React Router v6
+- **Animation**: Framer Motion
+- **Mobile-First**: Responsive design optimized for mobile
+
+### Backend
+- **Database & Backend**: Convex (Real-time reactive database)
+- **Authentication**: Convex Auth with Clerk integration
+- **Real-time**: Built-in Convex real-time subscriptions
+- **File Storage**: Convex File Storage
+- **Functions**: Convex server functions (queries, mutations, actions)
+- **Cache**: Built-in Convex caching
+
+### AI & 3D Services
+- **Text Generation**: OpenAI GPT-4 API
+- **3D Generation**: Tripo3D API
+- **Animation**: Google Veo-3 API (when available)
+- **Image Processing**: Sharp for optimization
+- **3D Formats**: Support for GLB, GLTF, OBJ
+
+### DevOps
 - **Build Tool**: Webpack (v5.88.0) with HtmlWebpackPlugin
-- **Testing**: Jest (v29.6.2)
-- **Linting**: ESLint (v8.47.0)
-- **TypeScript**: TypeScript (v5.1.6) with type definitions
-- **Development**: Nodemon (v3.0.1) for auto-reload
+- **Testing**: Jest (v29.6.2) + React Testing Library
+- **Linting**: ESLint (v8.47.0) with Airbnb config
+- **TypeScript**: TypeScript (v5.1.6)
+- **Development**: Nodemon (v3.0.1) + Concurrently
 
-## Essential Commands
-
-```bash
-# Development
-npm run dev          # Start development server with nodemon on port 3000
-npm start           # Run production server
-
-# Build
-npm run build       # Build for production (requires webpack.config.js)
-npm run build:dev   # Build for development
-
-# Quality Checks
-npm run lint        # Run ESLint (requires .eslintrc config)
-npm run typecheck   # TypeScript type checking (requires tsconfig.json)
-npm test           # Run Jest tests
-
-# Single test example (when tests exist)
-npm test -- path/to/test.spec.js
-```
-
-## Project Architecture
-
-The codebase follows a modular Express.js architecture with clear separation of concerns:
+## Project Structure
 
 ```
-aitoy-3d-generator/
+aitoy/
 ├── src/
-│   ├── server.js       # Main Express server with middleware setup (implemented)
-│   ├── api/           # API route handlers
-│   │   ├── modelGenerator.js  # 3D model generation endpoints (to implement)
-│   │   └── aiIntegration.js   # AI service integration (to implement)
-│   ├── client/        # Frontend JavaScript/TypeScript code
-│   │   ├── components/  # UI components
-│   │   ├── services/    # API client services
-│   │   └── utils/       # Client utilities
-│   ├── models/        # Data models and schemas
-│   ├── shared/        # Shared utilities between client/server
-│   └── utils/         # Server-side utilities
+│   ├── convex/
+│   │   ├── _generated/        # Auto-generated Convex files
+│   │   ├── schema.ts          # Database schema definitions
+│   │   ├── auth.config.ts     # Clerk authentication config
+│   │   ├── auth.ts            # Authentication functions
+│   │   ├── users.ts           # User queries and mutations
+│   │   ├── gallery.ts         # Gallery queries and mutations
+│   │   ├── creations.ts       # Creation workflow functions
+│   │   ├── ai.ts              # AI service actions
+│   │   ├── models3d.ts        # 3D model management
+│   │   ├── animations.ts      # Animation generation
+│   │   ├── social.ts          # Social features
+│   │   ├── tokens.ts          # Token economy functions
+│   │   ├── production.ts      # 3D printing orders
+│   │   ├── http.ts            # HTTP endpoints for webhooks
+│   │   └── lib/
+│   │       ├── openai.ts      # OpenAI integration
+│   │       ├── tripo.ts       # Tripo3D integration
+│   │       ├── validators.ts  # Input validation schemas
+│   │       └── helpers.ts     # Utility functions
+│   │
+│   ├── client/
+│   │   ├── App.tsx             # Main React app
+│   │   ├── pages/
+│   │   │   ├── Community.tsx   # Gallery & social features
+│   │   │   ├── Creation.tsx    # Design creation workflow
+│   │   │   └── Production.tsx  # 3D model & ordering
+│   │   ├── components/
+│   │   │   ├── layout/
+│   │   │   │   ├── TabBar.tsx  # Bottom navigation
+│   │   │   │   └── Header.tsx  # Top header
+│   │   │   ├── gallery/
+│   │   │   │   ├── GalleryGrid.tsx      # Waterfall layout
+│   │   │   │   ├── CreationCard.tsx     # Individual card
+│   │   │   │   └── TrendChart.tsx       # Price trends
+│   │   │   ├── creation/
+│   │   │   │   ├── CelebrityPicker.tsx  # Celebrity selection
+│   │   │   │   ├── WordCloud3D.tsx      # 3D word cloud
+│   │   │   │   ├── StyleSelector.tsx    # Style options
+│   │   │   │   ├── SketchEditor.tsx     # Sketch modification
+│   │   │   │   └── AnimationPreview.tsx # Animation viewer
+│   │   │   ├── production/
+│   │   │   │   ├── Model3DViewer.tsx    # Three.js viewer
+│   │   │   │   ├── FaceCustomizer.tsx   # 3D editing
+│   │   │   │   └── OrderForm.tsx        # Production order
+│   │   │   └── common/
+│   │   │       ├── TokenDisplay.tsx     # Token balance
+│   │   │       └── ShareModal.tsx       # Social sharing
+│   │   ├── hooks/
+│   │   │   ├── useAuth.ts      # Authentication hook
+│   │   │   ├── useTokens.ts    # Token economy hook
+│   │   │   └── useWebSocket.ts # Real-time updates
+│   │   ├── services/
+│   │   │   └── convex.ts      # Convex client setup
+│   │   └── stores/
+│   │       ├── authStore.ts    # Auth state
+│   │       ├── creationStore.ts # Creation workflow
+│   │       └── tokenStore.ts   # Token balance
+│   │
+│   └── shared/
+│       ├── types/              # Shared TypeScript types
+│       └── constants.ts        # Shared constants
 │
-├── public/            # Static files served by Express
-│   ├── assets/        # Static assets (images, fonts, etc.)
-│   ├── models/        # Generated/stored 3D model files
-│   └── index.html     # Main application entry (to create)
+├── convex.json                 # Convex configuration
 │
-├── tests/             # Test files
-│   ├── unit/          # Unit tests
-│   └── integration/   # Integration tests
+├── public/
+│   ├── index.html              # SPA entry point
+│   ├── assets/                 # Static assets
+│   ├── models/                 # 3D model storage
+│   └── uploads/                # User uploads
 │
-└── config/            # Configuration files
-    ├── webpack.config.js  # Webpack configuration (to create)
-    ├── .eslintrc.json     # ESLint configuration (to create)
-    └── tsconfig.json      # TypeScript configuration (to create)
+├── config/
+│   ├── webpack.config.js       # Webpack configuration
+│   ├── .eslintrc.json         # ESLint rules
+│   ├── tsconfig.json          # TypeScript config
+│   └── convex.config.ts       # Convex client configuration
+│
+├── tests/
+│   ├── unit/                  # Unit tests
+│   ├── integration/           # API tests
+│   └── e2e/                   # End-to-end tests
+│
+└── .env.example               # Environment variables template
 ```
 
-## API Structure
+## Convex Functions
 
-### Implemented Endpoints
-- `GET /api/health` - Health check endpoint returning server status
+### Authentication & Users (convex/auth.ts, convex/users.ts)
+- `auth.signUp` - User registration with invitation code (mutation)
+- `auth.signIn` - User login via Clerk (handled by Clerk)
+- `auth.signOut` - User logout (handled by Clerk)
+- `users.getCurrentUser` - Get current user (query)
+- `users.updateProfile` - Update user profile (mutation)
 
-### Planned Endpoints
-- **Model Generation**
-  - `POST /api/generate/model` - Generate new 3D model from text prompt
-  - `POST /api/generate/variation` - Create variations of existing model
-  - `GET /api/generate/status/:id` - Check generation job status
-  
-- **AI Integration**
-  - `POST /api/ai/prompt` - Process AI prompts for model generation
-  - `POST /api/ai/enhance` - Enhance existing model with AI suggestions
-  - `GET /api/ai/suggestions` - Get AI suggestions for model improvements
+### Token Economy (convex/tokens.ts)
+- `tokens.getBalance` - Get user token balance (query)
+- `tokens.transfer` - Transfer tokens to creator (mutation)
+- `tokens.getHistory` - Transaction history (query)
+- `tokens.claimDaily` - Claim daily rewards (mutation)
 
-- **Model Management**
-  - `GET /api/models` - List saved models
-  - `GET /api/models/:id` - Get specific model details
-  - `DELETE /api/models/:id` - Delete a model
-  - `POST /api/models/export` - Export model in various formats (GLB, GLTF, OBJ)
+### Community (convex/gallery.ts)
+- `gallery.list` - Get gallery items with pagination (query)
+- `gallery.getById` - Get specific creation details (query)
+- `gallery.like` - Like a creation (mutation)
+- `gallery.support` - Support with tokens (mutation)
+- `gallery.getTrending` - Get trending creations (query)
+- `gallery.getPriceHistory` - Get price trend data (query)
 
-## Implementation Checklist
+### Creation (convex/creations.ts)
+- `creations.searchCelebrity` - Search celebrity info (action)
+- `creations.generateSketch` - Generate AI sketch (action)
+- `creations.modifySketch` - Modify sketch (mutation)
+- `creations.generateAnimation` - Create animation (action)
+- `creations.save` - Save creation (mutation)
+- `creations.publish` - Publish to gallery (mutation)
 
-### Core Files (Required)
-- [x] `src/server.js` - Express server setup
-- [ ] `public/index.html` - Main application entry point
-- [ ] `.env` - Environment variables (PORT, API keys)
-- [ ] `webpack.config.js` - Build configuration
-- [ ] `.eslintrc.json` - Linting rules
-- [ ] `tsconfig.json` - TypeScript configuration
+### Social Sharing (convex/social.ts)
+- `social.generateCaption` - Generate social media caption (action)
+- `social.recordShare` - Record sharing action (mutation)
+- `social.getEngagement` - Get social engagement stats (query)
 
-### API Implementation
-- [ ] `src/api/modelGenerator.js` - 3D model generation logic
-- [ ] `src/api/aiIntegration.js` - AI service integration
-- [ ] `src/models/Model.js` - Model data schema
-- [ ] `src/models/User.js` - User data schema (if auth needed)
+### Production (convex/models3d.ts, convex/production.ts)
+- `models3d.generate` - Generate 3D model from sketch (action)
+- `models3d.customize` - Update 3D model (mutation)
+- `models3d.export` - Export in different formats (action)
+- `production.getQuote` - Get production quote (query)
+- `production.createOrder` - Create production order (mutation)
+- `production.getUserOrders` - Get user orders (query)
 
-### Frontend Components
-- [ ] `src/client/components/ModelViewer.js` - Three.js 3D viewer
-- [ ] `src/client/components/PromptInput.js` - AI prompt interface
-- [ ] `src/client/components/ModelControls.js` - 3D model manipulation controls
-- [ ] `src/client/services/api.js` - API client service
+### AI Integration (convex/ai.ts)
+- `ai.analyzeCelebrity` - Analyze celebrity traits (action)
+- `ai.suggestStyles` - Get style suggestions (action)
+- `ai.enhanceSketch` - Enhance sketch with AI (action)
 
-## Development Guidelines
+## Token Economy System
 
-### Code Standards
-- Use ES6+ JavaScript features
-- Follow functional programming principles where appropriate
-- Implement proper error handling with try-catch blocks
-- Add JSDoc comments for all functions
-- Use async/await for asynchronous operations
+### Token Distribution
+- **Registration Bonus**: 100 tokens for new users
+- **Daily Login**: 10 tokens per day
+- **Social Sharing**: 10 tokens per share
+- **Social Engagement**: 10 tokens per 100 likes received
+- **Referral Bonus**: 50 tokens for successful invitation
 
-### 3D Model Generation
-- Support multiple output formats (GLB, GLTF, OBJ)
-- Implement texture and material generation
-- Add model optimization for web display
-- Include metadata for each generated model
+### Token Consumption
+- **Sketch Generation**: 1 token per generation
+- **Sketch Modification**: 1 token per edit
+- **Animation Generation**: 5 tokens
+- **3D Model Generation**: 20 tokens
+- **Gallery Highlighting**: 10 tokens per day
 
-### AI Integration Best Practices
-- Implement rate limiting for AI API calls
-- Cache AI responses when appropriate
-- Validate and sanitize AI prompts
-- Handle AI service errors gracefully
-- Implement fallback mechanisms
-
-### Security Considerations
-- Validate all user inputs
-- Implement file upload size limits (10MB default)
-- Sanitize filenames for saved models
-- Use environment variables for sensitive data
-- Enable CORS with appropriate origins in production
+### Creator Economy
+- **Support System**: Users can support creators with tokens
+- **Revenue Sharing**: Creators earn 70% of support tokens
+- **Production Discount**: Based on social engagement metrics
 
 ## Environment Variables
 
 ```bash
-# Server Configuration
-PORT=3000
+# Convex Configuration
+CONVEX_URL=your_convex_deployment_url
+NEXT_PUBLIC_CONVEX_URL=your_convex_deployment_url
+
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+# Development
 NODE_ENV=development
 
-# AI Service Configuration
-OPENAI_API_KEY=your_api_key_here
-AI_MODEL=gpt-4-vision-preview
-AI_MAX_TOKENS=2000
+# AI Services
+OPENAI_API_KEY=your_openai_key
+OPENAI_MODEL=gpt-4-turbo-preview
+TRIPO_API_KEY=your_tripo_key
+VEO3_API_KEY=your_veo3_key
 
-# 3D Generation Settings
-MAX_MODEL_SIZE=10485760  # 10MB in bytes
+# 3D Generation
+MAX_MODEL_SIZE=10485760
 SUPPORTED_FORMATS=glb,gltf,obj
 DEFAULT_FORMAT=glb
 
-# Storage Configuration
+# Token Economy
+INITIAL_TOKENS=100
+DAILY_REWARD=10
+SHARE_REWARD=10
+ENGAGEMENT_REWARD=10
+
+# File Storage
+UPLOAD_PATH=./public/uploads
 MODELS_PATH=./public/models
-TEMP_PATH=./temp
+MAX_FILE_SIZE=10485760
+
+# Social Media
+XIAOHONGSHU_APP_ID=your_app_id
+INSTAGRAM_CLIENT_ID=your_client_id
+
+# Security
+JWT_SECRET=your_jwt_secret
+INVITATION_CODE_SECRET=your_invitation_secret
+RATE_LIMIT_WINDOW=15
+RATE_LIMIT_MAX=100
 ```
 
-## Testing Strategy
+## Implementation Phases
 
-- Unit tests for individual functions and utilities
-- Integration tests for API endpoints
-- E2E tests for critical user workflows
-- Performance tests for 3D rendering
-- Load tests for AI generation endpoints
+### Phase 1: Foundation (Week 1-2)
+- [x] Project setup and configuration
+- [ ] Convex schema design
+- [ ] Clerk authentication integration
+- [ ] Basic Convex functions structure
+- [ ] Frontend routing and layout
 
-## Deployment Considerations
+### Phase 2: Core Features (Week 3-4)
+- [ ] Token economy system
+- [ ] Gallery and community features
+- [ ] Celebrity search and analysis
+- [ ] Sketch generation workflow
+- [ ] Basic 3D viewer
 
-- Use PM2 or similar for process management
-- Implement proper logging (Winston/Morgan)
-- Set up monitoring and alerting
-- Configure CDN for static assets
-- Implement caching strategy for models
-- Set up database for model metadata (MongoDB/PostgreSQL)
+### Phase 3: AI Integration (Week 5-6)
+- [ ] OpenAI GPT integration
+- [ ] Tripo3D API integration
+- [ ] Animation generation (mock if Veo-3 unavailable)
+- [ ] AI-powered enhancements
+- [ ] Social caption generation
+
+### Phase 4: Production Features (Week 7-8)
+- [ ] 3D model customization
+- [ ] Face editing system
+- [ ] Export functionality
+- [ ] Order processing
+- [ ] Discount calculation
+
+### Phase 5: Social & Polish (Week 9-10)
+- [ ] Social sharing integration
+- [ ] Engagement tracking
+- [ ] Mobile optimization
+- [ ] Performance optimization
+- [ ] Testing and bug fixes
+
+## Development Guidelines
+
+### Code Standards
+- Use ES6+ JavaScript features and TypeScript
+- Follow Airbnb ESLint configuration
+- Implement proper error boundaries in React
+- Use async/await for all asynchronous operations
+- Add JSDoc comments for complex functions
+
+### Security Best Practices
+- Input validation using Convex validators
+- Built-in Convex rate limiting
+- File upload restrictions via Convex File Storage
+- Automatic query parameterization by Convex
+- XSS protection with proper content sanitization
+- Convex handles CORS automatically
+
+### Performance Optimization
+- Implement lazy loading for 3D models
+- Use React.memo for expensive components
+- Leverage Convex's built-in caching
+- Optimize images with Sharp
+- Use Convex File Storage with CDN
+- Implement virtual scrolling for gallery
+- Real-time subscriptions with Convex
+
+### Testing Requirements
+- Unit tests for utility functions (80% coverage)
+- Integration tests for all API endpoints
+- Component testing with React Testing Library
+- E2E tests for critical user flows
+- Performance testing for 3D rendering
+- Load testing for concurrent users
+
+## Deployment Checklist
+
+- [ ] Environment variables configured
+- [ ] Database migrations run
+- [ ] Redis cache connected
+- [ ] SSL certificates installed
+- [ ] CDN configured
+- [ ] Monitoring setup (Sentry/LogRocket)
+- [ ] Backup strategy implemented
+- [ ] Rate limiting configured
+- [ ] Security headers enabled
+- [ ] Performance monitoring active
