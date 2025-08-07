@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "AI-powered 3D model generator for creating trend toys",
   "main": "src/index.js",
+  "homepage": "https://demo.amio.love",
   "scripts": {
     "dev": "npm-run-all --parallel dev:convex dev:client",
     "dev:convex": "convex dev",
@@ -10,6 +11,7 @@
     "build": "npm-run-all build:convex build:client",
     "build:convex": "convex deploy",
     "build:client": "webpack --mode production",
+    "build:pages": "webpack --mode production",
     "test": "jest",
     "lint": "eslint src/ convex/",
     "typecheck": "tsc --noEmit"

@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const fs = require('fs');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -64,7 +65,27 @@ module.exports = (env, argv) => {
         'process.env.NODE_ENV': JSON.stringify(argv.mode),
         'process.env.CONVEX_URL': JSON.stringify(process.env.CONVEX_URL || ''),
         'process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY': JSON.stringify(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '')
-      })
+      }),
+      // Copy GitHub Pages files for custom domain and proper deployment
+      ...(isProduction ? [{
+        apply: (compiler) => {
+          compiler.hooks.afterEmit.tap('CopyGitHubPagesFiles', () => {
+            // Copy CNAME file for custom domain
+            const cnamePath = path.resolve(__dirname, 'public/CNAME');
+            const cnameDestPath = path.resolve(__dirname, 'dist/CNAME');
+            if (fs.existsSync(cnamePath)) {
+              fs.copyFileSync(cnamePath, cnameDestPath);
+            }
+            
+            // Copy .nojekyll file to prevent Jekyll processing
+            const nojekyllPath = path.resolve(__dirname, 'public/.nojekyll');
+            const nojekyllDestPath = path.resolve(__dirname, 'dist/.nojekyll');
+            if (fs.existsSync(nojekyllPath)) {
+              fs.copyFileSync(nojekyllPath, nojekyllDestPath);
+            }
+          });
+        }
+      }] : [])
     ],
     devServer: {
       static: {
