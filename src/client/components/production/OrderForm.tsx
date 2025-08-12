@@ -12,7 +12,7 @@ interface OrderFormProps {
   };
 }
 
-const OrderForm: React.FC<OrderFormProps> = ({ modelData }) => {
+const OrderForm: React.FC<OrderFormProps> = () => {
   const [quantity, setQuantity] = useState(1);
   const [material, setMaterial] = useState('pla');
   const [size, setSize] = useState('medium');

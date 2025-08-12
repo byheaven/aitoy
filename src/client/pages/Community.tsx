@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import GalleryGrid from '../components/gallery/GalleryGrid';
 import TrendingSection from '../components/gallery/TrendingSection';
 import FilterBar from '../components/gallery/FilterBar';

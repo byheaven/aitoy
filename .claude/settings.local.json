@@ -9,7 +9,13 @@
       "Bash(npm install)",
       "Bash(npm run dev:client:*)",
       "Bash(pkill:*)",
-      "Bash(kill:*)"
+      "Bash(kill:*)",
+      "Bash(chmod:*)",
+      "Bash(npm run lint)",
+      "Bash(npm install:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm test:*)",
+      "Bash(git pull:*)"
     ],
     "deny": []
   }

@@ -44,7 +44,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({ onSelect }) => {
       <div className="mt-6 p-4 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-2xl">
         <h3 className="text-sm font-semibold mb-2">💡 风格推荐</h3>
         <p className="text-xs text-gray-600">
-          基于当前流行趋势，我们推荐选择"盲盒"或"Q版"风格，这些风格在社区中最受欢迎！
+          基于当前流行趋势，我们推荐选择&ldquo;盲盒&rdquo;或&ldquo;Q版&rdquo;风格，这些风格在社区中最受欢迎！
         </p>
       </div>
     </div>

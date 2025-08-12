@@ -7,7 +7,7 @@ interface WordCloud3DProps {
   onComplete: (keywords: string[]) => void;
 }
 
-const WordCloud3D: React.FC<WordCloud3DProps> = ({ celebrity, domain, onComplete }) => {
+const WordCloud3D: React.FC<WordCloud3DProps> = ({ celebrity, onComplete }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [keywords, setKeywords] = useState<string[]>([]);
 

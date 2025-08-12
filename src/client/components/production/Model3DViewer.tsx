@@ -2,13 +2,14 @@ import React, { Suspense, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stage, Box, Environment } from '@react-three/drei';
 import { motion } from 'framer-motion';
+import * as THREE from 'three';
 
 interface Model3DViewerProps {
   modelUrl?: string;
 }
 
 const Model3D: React.FC = () => {
-  const meshRef = useRef<any>();
+  const meshRef = useRef<THREE.Mesh>(null);
 
   return (
     <Box ref={meshRef} args={[2, 3, 2]} position={[0, 0, 0]}>
@@ -17,7 +18,7 @@ const Model3D: React.FC = () => {
   );
 };
 
-const Model3DViewer: React.FC<Model3DViewerProps> = ({ modelUrl }) => {
+const Model3DViewer: React.FC<Model3DViewerProps> = () => {
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
       <div className="h-96 bg-gradient-to-br from-gray-100 to-gray-200">
