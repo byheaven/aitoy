@@ -15,8 +15,10 @@
       "Bash(npm install:*)",
       "Bash(npm run typecheck:*)",
       "Bash(npm test:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(git stash:*)"
     ],
     "deny": []
-  }
+  },
+  "outputStyle": "Explanatory"
 }

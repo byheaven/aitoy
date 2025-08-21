@@ -83,6 +83,13 @@ module.exports = (env, argv) => {
             if (fs.existsSync(nojekyllPath)) {
               fs.copyFileSync(nojekyllPath, nojekyllDestPath);
             }
+            
+            // Copy 404.html for GitHub Pages SPA routing
+            const notFoundPath = path.resolve(__dirname, 'public/404.html');
+            const notFoundDestPath = path.resolve(__dirname, 'dist/404.html');
+            if (fs.existsSync(notFoundPath)) {
+              fs.copyFileSync(notFoundPath, notFoundDestPath);
+            }
           });
         }
       }] : [])
