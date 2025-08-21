@@ -13,7 +13,7 @@ const AppLayout: React.FC = () => {
   const location = useLocation();
   
   // Check if current route is a landing page route
-  const isLandingPage = ['/landing', '/zh', '/en'].includes(location.pathname);
+  const isLandingPage = ['/landing', '/zh', '/en', '/'].includes(location.pathname);
 
   return (
     <div className={`flex flex-col min-h-screen ${
@@ -31,8 +31,10 @@ const AppLayout: React.FC = () => {
             <Route path="/zh" element={<LandingPage />} />
             <Route path="/en" element={<LandingPage />} />
             
+            {/* Root path shows landing page */}
+            <Route path="/" element={<LandingPage />} />
+            
             {/* App routes */}
-            <Route path="/" element={<Navigate to="/community" replace />} />
             <Route path="/community" element={<Community />} />
             <Route path="/creation" element={<Creation />} />
             <Route path="/production" element={<Production />} />
