@@ -33,6 +33,14 @@ AMIO - AI-powered 3D model generator platform combining "PopMart + OnlyFans + AI
 - **Manufacturing Integration**: 3D printing order processing
 - **Discount System**: Social media engagement-based pricing
 
+### 4. 落地页 (Landing Page)
+- **Bilingual System**: Seamless Chinese/English language switching
+- **Marketing Focus**: Patreon-inspired design for user acquisition
+- **Responsive Design**: Mobile-first approach with glassmorphism effects
+- **Language Persistence**: LocalStorage-based preference saving
+- **SEO Optimized**: Meta tags and content localization
+- **Smooth Animations**: Framer Motion transitions and interactions
+
 ## Technology Stack
 
 ### Frontend
@@ -40,9 +48,12 @@ AMIO - AI-powered 3D model generator platform combining "PopMart + OnlyFans + AI
 - **3D Graphics**: Three.js (v0.155.0) with React Three Fiber
 - **UI Library**: Tailwind CSS + Shadcn/ui (artistic style like Patreon)
 - **State Management**: Zustand
-- **Routing**: React Router v6
-- **Animation**: Framer Motion
+- **Routing**: React Router v6 with landing page routes
+- **Animation**: Framer Motion for smooth transitions and interactions
+- **Internationalization**: Custom i18n system with React Context
+- **Language Support**: Chinese/English bilingual switching
 - **Mobile-First**: Responsive design optimized for mobile
+- **Theme**: Dark theme with glassmorphism effects
 
 ### Backend
 - **Database & Backend**: Convex (Real-time reactive database)
@@ -93,11 +104,17 @@ aitoy/
 │   │       └── helpers.ts     # Utility functions
 │   │
 │   ├── client/
-│   │   ├── App.tsx             # Main React app
+│   │   ├── App.tsx             # Main React app with LanguageProvider
 │   │   ├── pages/
+│   │   │   ├── LandingPage.tsx # Bilingual marketing landing page
 │   │   │   ├── Community.tsx   # Gallery & social features
 │   │   │   ├── Creation.tsx    # Design creation workflow
 │   │   │   └── Production.tsx  # 3D model & ordering
+│   │   ├── contexts/
+│   │   │   └── LanguageContext.tsx  # Language switching system
+│   │   ├── locales/
+│   │   │   ├── en.json         # English translations
+│   │   │   └── zh.json         # Chinese translations
 │   │   ├── components/
 │   │   │   ├── layout/
 │   │   │   │   ├── TabBar.tsx  # Bottom navigation
@@ -117,11 +134,13 @@ aitoy/
 │   │   │   │   ├── FaceCustomizer.tsx   # 3D editing
 │   │   │   │   └── OrderForm.tsx        # Production order
 │   │   │   └── common/
+│   │   │       ├── LanguageToggle.tsx   # Language switcher component
 │   │   │       ├── TokenDisplay.tsx     # Token balance
 │   │   │       └── ShareModal.tsx       # Social sharing
 │   │   ├── hooks/
 │   │   │   ├── useAuth.ts      # Authentication hook
 │   │   │   ├── useTokens.ts    # Token economy hook
+│   │   │   ├── useLanguage.ts  # Translation and language hook
 │   │   │   └── useWebSocket.ts # Real-time updates
 │   │   ├── services/
 │   │   │   └── convex.ts      # Convex client setup
@@ -147,6 +166,12 @@ aitoy/
 │   ├── .eslintrc.json         # ESLint rules
 │   ├── tsconfig.json          # TypeScript config
 │   └── convex.config.ts       # Convex client configuration
+│
+├── docs/
+│   ├── landing-page-content.md       # English landing page content
+│   ├── landing-page-content-zh.md    # Chinese landing page content
+│   ├── landing-page-implementation.md # Landing page technical guide
+│   └── language-implementation-guide.md # i18n implementation guide
 │
 ├── tests/
 │   ├── unit/                  # Unit tests
@@ -244,6 +269,11 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 # Development
 NODE_ENV=development
 
+# Internationalization
+REACT_APP_DEFAULT_LANGUAGE=en
+REACT_APP_SUPPORTED_LANGUAGES=en,zh
+REACT_APP_LANGUAGE_STORAGE_KEY=amio-language
+
 # AI Services
 OPENAI_API_KEY=your_openai_key
 OPENAI_MODEL=gpt-4-turbo-preview
@@ -281,10 +311,13 @@ RATE_LIMIT_MAX=100
 
 ### Phase 1: Foundation (Week 1-2)
 - [x] Project setup and configuration
+- [x] Bilingual landing page with language switching system
+- [x] React Router v6 setup with landing page routes
+- [x] Framer Motion animations and responsive design
+- [x] Language Context and internationalization architecture
 - [ ] Convex schema design
 - [ ] Clerk authentication integration
 - [ ] Basic Convex functions structure
-- [ ] Frontend routing and layout
 
 ### Phase 2: Core Features (Week 3-4)
 - [ ] Token economy system
@@ -328,6 +361,16 @@ RATE_LIMIT_MAX=100
 - Implement proper error boundaries in React
 - Use async/await for all asynchronous operations
 - Add JSDoc comments for complex functions
+
+### Internationalization Guidelines
+- **Translation Keys**: Use dot notation for nested keys (e.g., `hero.title`)
+- **File Structure**: Maintain consistent JSON structure across all locale files
+- **Language Context**: Always wrap app components with LanguageProvider
+- **Translation Hook**: Use `useLanguage()` hook for accessing translations
+- **Language Persistence**: User language preference saved in localStorage
+- **Testing**: Test both English and Chinese versions of all features
+- **Content Strategy**: Culturally adapt content, not just translate
+- **Performance**: Translations are loaded statically to avoid runtime overhead
 
 ### Security Best Practices
 - Input validation using Convex validators
