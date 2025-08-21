@@ -105,17 +105,19 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // Translation function with nested object support
   const t = (key: string): string => {
     const keys = key.split('.');
-    let value: any = translations[language];
+    let value: Record<string, unknown> | string = translations[language];
     
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
-        value = value[k];
+        const objValue = value as Record<string, unknown>;
+        value = objValue[k] as Record<string, unknown> | string;
       } else {
         // Fallback to English if key not found in current language
         value = translations.en;
         for (const fallbackKey of keys) {
           if (value && typeof value === 'object' && fallbackKey in value) {
-            value = value[fallbackKey];
+            const objValue = value as Record<string, unknown>;
+            value = objValue[fallbackKey] as Record<string, unknown> | string;
           } else {
             console.warn(`Translation key "${key}" not found`);
             return key; // Return key as fallback
@@ -179,9 +181,11 @@ export const useIsChineseLanguage = (): boolean => {
 export function withLanguage<P extends object>(
   Component: React.ComponentType<P>
 ): React.ComponentType<P> {
-  return (props: P) => (
+  const WrappedComponent = (props: P) => (
     <Component {...props} />
   );
+  WrappedComponent.displayName = `withLanguage(${Component.displayName || Component.name})`;
+  return WrappedComponent;
 }
 
 export default LanguageContext;

@@ -124,7 +124,7 @@ const StepCard: React.FC<StepCardProps> = ({ step, index }) => {
 };
 
 export const LandingPage: React.FC = () => {
-  const { t, formatCurrency } = useLanguage();
+  const { t } = useLanguage();
   const isChinese = useIsChineseLanguage();
   const navigate = useNavigate();
   const { scrollY } = useScroll();
@@ -463,11 +463,11 @@ export const LandingPage: React.FC = () => {
                 </div>
                 
                 <p className="text-gray-300 mb-6 italic">
-                  "{t(`success.creators.${creatorKey}.quote`)}"
+                  &ldquo;{t(`success.creators.${creatorKey}.quote`)}&rdquo;
                 </p>
                 
                 <div className="space-y-2 text-sm">
-                  {Object.values(t(`success.creators.${creatorKey}.metrics`) as any).map((metric: any, metricIdx: number) => (
+                  {Object.values(t(`success.creators.${creatorKey}.metrics`) as unknown as Record<string, string>).map((metric: string, metricIdx: number) => (
                     <div key={metricIdx} className="flex justify-between">
                       <span className="text-gray-400">•</span>
                       <span className="text-gray-200">{metric}</span>
