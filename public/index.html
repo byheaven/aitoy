@@ -10,9 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript">
       // 单页应用路径恢复脚本
-      // 从 404.html 重定向过来的路径会被编码在 URL 参数中
-      // 这个脚本会将其恢复为正常的路径
       (function(l) {
+        // 方案 1: 优先从 sessionStorage 恢复（更干净的 URL）
+        try {
+          var redirect = sessionStorage.getItem('spa_redirect');
+          if (redirect) {
+            sessionStorage.removeItem('spa_redirect');
+            window.history.replaceState(null, null, '/' + redirect);
+            return;
+          }
+        } catch (e) {
+          // sessionStorage 不可用时继续执行方案 2
+        }
+        
+        // 方案 2: 从 URL 查询参数恢复（用于分享的链接或 sessionStorage 不可用时）
         if (l.search[1] === '/' ) {
           var decoded = l.search.slice(1).split('&').map(function(s) { 
             return s.replace(/~and~/g, '&') 

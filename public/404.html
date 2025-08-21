@@ -5,17 +5,26 @@
   <title>AMIO - AI玩具创作平台</title>
   <script type="text/javascript">
     // GitHub Pages 单页应用路由处理
-    // 将路径编码到 URL 参数中，然后重定向到 index.html
-    // 例如: /community -> /?/community
-    var pathSegmentsToKeep = 0;
+    // 优先使用 sessionStorage 避免 URL 中显示查询参数
     var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+    var pathSegmentsToKeep = 0;
+    
+    // 尝试使用 sessionStorage（更干净的 URL）
+    try {
+      var redirect = l.pathname.slice(1) + (l.search || '') + (l.hash || '');
+      sessionStorage.setItem('spa_redirect', redirect);
+      // 直接重定向到根目录，URL 不会显示查询参数
+      l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/');
+    } catch (e) {
+      // 如果 sessionStorage 不可用（如隐私模式），回退到查询参数方案
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    }
   </script>
 </head>
 <body>
