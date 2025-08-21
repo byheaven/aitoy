@@ -355,6 +355,24 @@ RATE_LIMIT_MAX=100
 - Include details of what was changed and why
 - Add the Claude Code signature to commits
 
+### Deployment Verification Requirements
+- **CRITICAL**: Always verify deployment success before considering any task complete
+- **Pre-deployment Checks**: Run all CI/CD steps locally before pushing:
+  - `npm run lint` - ESLint code quality checks
+  - `npm run typecheck` - TypeScript type validation
+  - `npm test -- --coverage --watchAll=false` - Full test suite with coverage
+  - `npm run build:pages` - Production build verification
+- **Post-deployment Verification**: After pushing to main branch:
+  - Monitor GitHub Actions workflow completion
+  - Verify successful deployment to demo.amio.love
+  - Test key functionality on deployed site
+  - Address any deployment failures immediately
+- **Error Resolution**: If deployment fails:
+  1. Identify root cause through error analysis
+  2. Fix issues locally and verify with full CI/CD pipeline
+  3. Re-deploy and confirm success
+  4. Document any new environment setup requirements
+
 ### Code Standards
 - Use ES6+ JavaScript features and TypeScript
 - Follow Airbnb ESLint configuration
@@ -390,12 +408,19 @@ RATE_LIMIT_MAX=100
 - Real-time subscriptions with Convex
 
 ### Testing Requirements
-- Unit tests for utility functions (80% coverage)
+- **Mandatory Pre-commit Testing**: All tests must pass before pushing to main
+- Unit tests for utility functions (80% coverage minimum)
 - Integration tests for all API endpoints
 - Component testing with React Testing Library
 - E2E tests for critical user flows
 - Performance testing for 3D rendering
 - Load testing for concurrent users
+- **Environment Setup**: Jest configured with browser API mocks:
+  - IntersectionObserver mock for Framer Motion
+  - ResizeObserver mock for responsive components
+  - matchMedia mock for responsive design tests
+- **Bilingual Testing**: Test all features in both English and Chinese
+- **Deployment Verification**: Test deployed features on demo.amio.love
 
 ## Deployment Checklist
 
