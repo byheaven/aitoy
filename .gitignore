@@ -1,168 +1,36 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Production build outputs
-dist/
-build/
-public/build/
-*.tgz
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
 
-# Development tools
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# testing
+/coverage
 
-# Testing
-coverage/
-.nyc_output/
-.jest/
+# next.js
+/.next/
+/out/
 
-# Environment variables and secrets
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.*.local
+# production
+/build
 
-# API keys and secrets (various formats)
-*.key
-*.pem
-*.p12
-*.pfx
-secret.*
-secrets.*
-*secret*
-*secrets*
-*.secret
-config/secrets.json
-config/keys.json
-
-# Authentication and tokens
-.auth
-auth.json
-token.json
-tokens.json
-oauth.json
-credentials.json
-service-account.json
-firebase-adminsdk-*.json
-gcloud-key.json
-aws-credentials
-.aws/
-
-# Database files
-*.db
-*.sqlite
-*.sqlite3
-database.json
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# Temporary folders
-tmp/
-temp/
-.tmp/
-.cache/
-
-# OS generated files
+# misc
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+*.pem
 
-# Convex specific
-.convex/
-convex/_generated/
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Claude Code specific (local settings)
-.claude/settings.local.json
-.claude/cache/
-.claude/temp/
+# local env files
+.env*.local
 
-# Local development
-.local
-local.*
-*.local
+# vercel
+.vercel
 
-# Backup files
-*.bak
-*.backup
-*.orig
-
-# Archive files
-*.zip
-*.tar.gz
-*.rar
-*.7z
-
-# IDE and editor files
-.vscode/settings.json
-.vscode/launch.json
-.vscode/extensions.json
-*.sublime-project
-*.sublime-workspace
-.idea/
-*.iml
-
-# ESLint cache
-.eslintcache
-
-# TypeScript
+# typescript
 *.tsbuildinfo
-
-# Next.js
-.next/
-out/
-
-# Nuxt.js
-.nuxt/
-
-# Webpack
-.webpack/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache (https://parceljs.log.org/)
-.parcel-cache/
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary files
-*.tmp
-*.temp
+next-env.d.ts
