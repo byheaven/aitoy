@@ -37,9 +37,12 @@ next-env.d.ts
 
 # AI Coding Tools & Assistants
 # Claude Code and related AI tools configuration files
+# Note: Project CLAUDE.md is intentionally tracked
 claude.md
 Claude.md
-CLAUDE_*.md
+CLAUDE_TEMP*.md
+CLAUDE_BACKUP*.md
+CLAUDE_DRAFT*.md
 .claude/
 .claude-*
 agent.md
