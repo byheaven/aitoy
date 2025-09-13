@@ -10,7 +10,7 @@
     "dev:convex": "convex dev",
     "build": "npm-run-all build:convex build:next",
     "build:next": "next build",
-    "build:pages": "next build && mkdir -p dist && echo '<!DOCTYPE html><html><head><title>AMIO - AI-Powered 3D Toy Generator</title></head><body><h1>Build Successful</h1><p>Next.js application built successfully. This is a React app that requires a Node.js server to run properly.</p></body></html>' > dist/index.html",
+    "build:pages": "next build",
     "build:convex": "convex deploy",
     "start": "next start",
     "lint": "next lint",

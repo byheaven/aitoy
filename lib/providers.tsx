@@ -13,6 +13,11 @@ interface ProvidersProps {
 }
 
 export function Providers({ children }: ProvidersProps) {
+  // For static export, disable providers to avoid Server Actions
+  if (process.env.NODE_ENV === 'production') {
+    return <>{children}</>;
+  }
+
   const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   // For static generation without environment variables, skip providers
