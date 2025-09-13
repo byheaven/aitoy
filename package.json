@@ -10,6 +10,7 @@
     "dev:convex": "convex dev",
     "build": "npm-run-all build:convex build:next",
     "build:next": "next build",
+    "build:pages": "next build",
     "build:convex": "convex deploy",
     "start": "next start",
     "lint": "next lint",
