@@ -34,3 +34,68 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI Coding Tools & Assistants
+# Claude Code and related AI tools configuration files
+claude.md
+Claude.md
+CLAUDE_*.md
+.claude/
+.claude-*
+agent.md
+Agent.md
+AGENT_*.md
+.agent/
+.agent-*
+
+# Warp Terminal AI features
+warp.md
+Warp.md
+WARP_*.md
+.warp/
+.warp-*
+
+# GitHub Copilot
+.copilot/
+copilot.md
+Copilot.md
+COPILOT_*.md
+
+# Cursor AI Editor
+.cursor/
+cursor.md
+Cursor.md
+CURSOR_*.md
+
+# Tabnine AI
+.tabnine/
+tabnine.md
+Tabnine.md
+TABNINE_*.md
+
+# Codeium AI
+.codeium/
+codeium.md
+Codeium.md
+CODEIUM_*.md
+
+# Other AI coding assistants
+.ai/
+.assistant/
+ai-*.md
+AI-*.md
+assistant-*.md
+ASSISTANT_*.md
+
+# AI-generated temporary files
+*.ai-temp
+*.ai-backup
+*.ai-draft
+*-ai-generated.*
+*-assistant-generated.*
+
+# AI tool logs and cache
+ai-logs/
+.ai-cache/
+.assistant-cache/
+*.ai-log
