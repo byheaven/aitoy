@@ -357,21 +357,25 @@ RATE_LIMIT_MAX=100
 
 ### Deployment Verification Requirements
 - **CRITICAL**: Always verify deployment success before considering any task complete
+- **MANDATORY**: After every push to GitHub, MUST wait and verify that GitHub Actions passes completely before ending work
 - **Pre-deployment Checks**: Run all CI/CD steps locally before pushing:
   - `npm run lint` - ESLint code quality checks
   - `npm run typecheck` - TypeScript type validation
   - `npm test -- --coverage --watchAll=false` - Full test suite with coverage
   - `npm run build:pages` - Production build verification
 - **Post-deployment Verification**: After pushing to main branch:
-  - Monitor GitHub Actions workflow completion
-  - Verify successful deployment to demo.amio.love
-  - Test key functionality on deployed site
+  - **REQUIRED**: Use `gh run list` and `gh run view` to monitor GitHub Actions workflow completion
+  - **REQUIRED**: Verify all steps pass: install → lint → typecheck → test → build → deploy
+  - **REQUIRED**: Confirm workflow status shows "completed success" before considering work finished
+  - Verify successful deployment to demo.amio.love (when applicable)
+  - Test key functionality on deployed site (when applicable)
   - Address any deployment failures immediately
 - **Error Resolution**: If deployment fails:
   1. Identify root cause through error analysis
   2. Fix issues locally and verify with full CI/CD pipeline
   3. Re-deploy and confirm success
   4. Document any new environment setup requirements
+- **Never end work with failing GitHub Actions** - this is a hard requirement
 
 ### Code Standards
 - Use ES6+ JavaScript features and TypeScript
