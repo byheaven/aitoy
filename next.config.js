@@ -33,7 +33,7 @@ const nextConfig = {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   },
   // For static export (GitHub Pages)
-  // Uncomment these lines if deploying to GitHub Pages
+  // Note: Server Actions require dynamic rendering, cannot use static export
   // output: 'export',
   // basePath: '',
   // trailingSlash: true,
