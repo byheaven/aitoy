@@ -1,9 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import dynamic from 'next/dynamic';
+
+// Dynamically import Three.js components to avoid SSR issues
+const ToyCreationScene = dynamic(() => import('@/components/three/ToyCreationScene'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl border border-white/10 flex items-center justify-center">
+      <div className="text-6xl opacity-50">🎨</div>
+    </div>
+  )
+});
+
+const HeroScene = dynamic(() => import('@/components/three/HeroScene'), {
+  ssr: false,
+  loading: () => null
+});
 
 interface FeatureCardProps {
   title: string;
@@ -11,9 +27,10 @@ interface FeatureCardProps {
   features: string[];
   tagline: string;
   index: number;
+  sceneType: 'creation' | 'community' | 'production';
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, subtitle, features, tagline, index }) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({ title, subtitle, features, tagline, index, sceneType }) => {
   const isRight = index % 2 === 1;
 
   return (
@@ -46,8 +63,14 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, subtitle, features, ta
       </div>
 
       <div className="flex-1 max-w-md">
-        <div className="aspect-square bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl border border-white/10 flex items-center justify-center">
-          <div className="text-6xl opacity-50">🎨</div>
+        <div className="aspect-square rounded-2xl border border-white/10 overflow-hidden">
+          <Suspense fallback={
+            <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-purple-600/20 flex items-center justify-center">
+              <div className="text-6xl opacity-50">🎨</div>
+            </div>
+          }>
+            <ToyCreationScene sceneType={sceneType} />
+          </Suspense>
         </div>
       </div>
     </motion.div>
@@ -151,12 +174,24 @@ export default function Home() {
             </motion.button>
           </motion.div>
 
+          {/* Hero 3D Scene */}
+          <motion.div
+            className="mt-12 mb-8 h-64 md:h-80 max-w-4xl mx-auto"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
+            <Suspense fallback={null}>
+              <HeroScene />
+            </Suspense>
+          </motion.div>
+
           {/* Hero Stats */}
           <motion.div
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+            className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
           >
             {[
               { value: '15,000+', label: isChinese ? '注册创作者' : 'Creators' },
@@ -205,6 +240,7 @@ export default function Home() {
               ]}
               tagline={isChinese ? "让每个创意都成为可能" : "Making every idea possible"}
               index={0}
+              sceneType="creation"
             />
 
             <FeatureCard
@@ -218,6 +254,7 @@ export default function Home() {
               ]}
               tagline={isChinese ? "创作不是孤独的旅程" : "Creation is not a lonely journey"}
               index={1}
+              sceneType="community"
             />
 
             <FeatureCard
@@ -231,6 +268,7 @@ export default function Home() {
               ]}
               tagline={isChinese ? "从虚拟到现实，一步到位" : "From virtual to reality, in one step"}
               index={2}
+              sceneType="production"
             />
           </div>
         </div>
