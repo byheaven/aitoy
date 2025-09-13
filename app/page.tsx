@@ -11,14 +11,24 @@ const ToyCreationScene = dynamic(() => import('@/components/three/ToyCreationSce
   ssr: false,
   loading: () => (
     <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl border border-white/10 flex items-center justify-center">
-      <div className="text-6xl opacity-50">🎨</div>
+      <div className="text-center">
+        <div className="text-4xl mb-2">🎨</div>
+        <div className="text-xs text-gray-500">Loading 3D Scene...</div>
+      </div>
     </div>
   )
 });
 
 const HeroScene = dynamic(() => import('@/components/three/HeroScene'), {
   ssr: false,
-  loading: () => null
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-6xl mb-2">✨</div>
+        <div className="text-sm text-gray-400">Loading 3D Experience...</div>
+      </div>
+    </div>
+  )
 });
 
 interface FeatureCardProps {

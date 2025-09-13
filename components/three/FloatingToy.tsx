@@ -2,14 +2,13 @@
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { MeshWobbleMaterial, Sphere } from '@react-three/drei';
+import { Sphere } from '@react-three/drei';
 import { Mesh, Color } from 'three';
 
 interface FloatingToyProps {
   position: [number, number, number];
   color?: string;
   size?: number;
-  wobbleSpeed?: number;
   floatSpeed?: number;
 }
 
@@ -17,7 +16,6 @@ const FloatingToy: React.FC<FloatingToyProps> = ({
   position,
   color = '#4f46e5',
   size = 1,
-  wobbleSpeed = 1,
   floatSpeed = 1
 }) => {
   const meshRef = useRef<Mesh>(null);
@@ -35,12 +33,11 @@ const FloatingToy: React.FC<FloatingToyProps> = ({
 
   return (
     <Sphere ref={meshRef} position={position} args={[size, 32, 32]}>
-      <MeshWobbleMaterial
+      <meshStandardMaterial
         color={new Color(color)}
-        speed={wobbleSpeed}
-        factor={0.3}
         roughness={0.1}
         metalness={0.8}
+        emissive={new Color(color).multiplyScalar(0.1)}
       />
     </Sphere>
   );
