@@ -37,10 +37,11 @@ next-env.d.ts
 
 # AI Coding Tools & Assistants
 # Claude Code and related AI tools configuration files
-# Project documentation for Claude Code (local only)
-CLAUDE.md
-claude.md
-Claude.md
+# Note: CLAUDE.md is tracked for project documentation
+# Ignore AI tool config files but allow project CLAUDE.md
+claude-config.md
+claude-settings.md
+claude-local.md
 CLAUDE_TEMP*.md
 CLAUDE_BACKUP*.md
 CLAUDE_DRAFT*.md
