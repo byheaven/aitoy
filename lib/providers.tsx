@@ -13,7 +13,12 @@ interface ProvidersProps {
 }
 
 export function Providers({ children }: ProvidersProps) {
-  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || 'pk_test_placeholder';
+  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+  // For static generation without environment variables, skip providers
+  if (!clerkPublishableKey) {
+    return <>{children}</>;
+  }
 
   return (
     <ClerkProvider
