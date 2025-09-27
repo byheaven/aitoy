@@ -2,11 +2,43 @@
 
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ImageGenerator from '@/components/creation/ImageGenerator';
+import { useImageGenerationStore, createGeneratedImage } from '@/stores/imageGenerationStore';
 
 export default function CreationPage() {
   const { t, language } = useLanguage();
   const isChinese = language === 'zh';
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedCharacter] = useState('');
+  const [selectedStyle] = useState('');
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [generationError, setGenerationError] = useState<string | null>(null);
+
+  // Image generation store
+  const { addToHistory, consumeTokens, tokens } = useImageGenerationStore();
+
+  // Handle image generation
+  const handleImageGenerated = (imageData: string, prompt: string) => {
+    setGeneratedImage(imageData);
+    setGenerationError(null);
+
+    // Create and save to history
+    const generatedImageObj = createGeneratedImage(
+      imageData,
+      'image/png',
+      prompt,
+      selectedStyle,
+      selectedCharacter,
+      5
+    );
+    addToHistory(generatedImageObj);
+    consumeTokens(5);
+  };
+
+  const handleGenerationError = (error: string) => {
+    setGenerationError(error);
+    setGeneratedImage(null);
+  };
 
   const steps = [
     {
@@ -21,8 +53,8 @@ export default function CreationPage() {
     },
     {
       id: 3,
-      title: isChinese ? '生成预览' : 'Generate Preview',
-      description: isChinese ? '查看AI生成的设计并进行调整' : 'View AI-generated design and make adjustments',
+      title: isChinese ? 'AI生成设计' : 'AI Generate Design',
+      description: isChinese ? '使用AI生成独特的玩具设计' : 'Use AI to generate unique toy designs',
     },
   ];
 
@@ -31,15 +63,29 @@ export default function CreationPage() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 py-6">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {t('nav.creation')}
-          </h1>
-          <p className="text-gray-600 mt-2">
-            {isChinese
-              ? '使用AI技术创作独特的3D玩具设计'
-              : 'Create unique 3D toy designs with AI technology'
-            }
-          </p>
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                {t('nav.creation')}
+              </h1>
+              <p className="text-gray-600 mt-2">
+                {isChinese
+                  ? '使用AI技术创作独特的3D玩具设计'
+                  : 'Create unique 3D toy designs with AI technology'
+                }
+              </p>
+            </div>
+
+            {/* Token Display */}
+            <div className="bg-primary-50 border border-primary-200 rounded-lg px-4 py-2">
+              <div className="text-sm font-medium text-primary-600">
+                {isChinese ? '剩余代币' : 'Tokens'}
+              </div>
+              <div className="text-xl font-bold text-primary-700">
+                ✨ {tokens}
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -193,62 +239,45 @@ export default function CreationPage() {
           {currentStep === 3 && (
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-6">
-                {isChinese ? '生成预览' : 'Generate Preview'}
+                {isChinese ? 'AI生成设计' : 'AI Generate Design'}
               </h2>
 
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* 3D Preview */}
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
-                    {isChinese ? '3D预览' : '3D Preview'}
-                  </h3>
-                  <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg border border-gray-200 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-6xl mb-4">🎨</div>
-                      <p className="text-gray-600">
-                        {isChinese ? '3D模型将在此显示' : '3D model will appear here'}
-                      </p>
+              {/* Error Message */}
+              {generationError && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-center">
+                    <div className="text-red-600 font-medium">
+                      ❌ {isChinese ? '生成失败' : 'Generation Failed'}
                     </div>
                   </div>
-                </div>
-
-                {/* Controls */}
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
-                    {isChinese ? '调整设置' : 'Adjustment Settings'}
-                  </h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {isChinese ? '颜色主题' : 'Color Theme'}
-                      </label>
-                      <div className="flex gap-2">
-                        {['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-purple-400', 'bg-pink-400'].map((color, i) => (
-                          <button
-                            key={i}
-                            className={`w-8 h-8 rounded-full ${color} border-2 border-gray-300 hover:border-gray-500`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {isChinese ? '尺寸' : 'Size'}
-                      </label>
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option>{isChinese ? '小号 (5cm)' : 'Small (5cm)'}</option>
-                        <option>{isChinese ? '中号 (8cm)' : 'Medium (8cm)'}</option>
-                        <option>{isChinese ? '大号 (12cm)' : 'Large (12cm)'}</option>
-                      </select>
-                    </div>
-
-                    <button className="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors">
-                      {isChinese ? '重新生成' : 'Regenerate'}
-                    </button>
+                  <div className="text-red-700 mt-1 text-sm">
+                    {generationError}
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* Token Warning */}
+              {tokens < 5 && (
+                <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="flex items-center">
+                    <div className="text-yellow-600 font-medium">
+                      ⚠️ {isChinese ? '代币不足' : 'Insufficient Tokens'}
+                    </div>
+                  </div>
+                  <div className="text-yellow-700 mt-1 text-sm">
+                    {isChinese
+                      ? '您需要至少5个代币来生成图片。请稍后再试或获取更多代币。'
+                      : 'You need at least 5 tokens to generate an image. Please try again later or earn more tokens.'
+                    }
+                  </div>
+                </div>
+              )}
+
+              {/* Image Generator Component */}
+              <ImageGenerator
+                onImageGenerated={handleImageGenerated}
+                onError={handleGenerationError}
+              />
             </div>
           )}
 
@@ -270,8 +299,18 @@ export default function CreationPage() {
                 {isChinese ? '下一步' : 'Next'}
               </button>
             ) : (
-              <button className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                {isChinese ? '保存创作' : 'Save Creation'}
+              <button
+                className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  generatedImage
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                }`}
+                disabled={!generatedImage}
+              >
+                {generatedImage
+                  ? (isChinese ? '保存创作 ✅' : 'Save Creation ✅')
+                  : (isChinese ? '先生成设计' : 'Generate Design First')
+                }
               </button>
             )}
           </div>
