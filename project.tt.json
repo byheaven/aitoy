@@ -1,0 +1,12 @@
+{
+  "miniprogramRoot": "dist/tt/",
+  "projectname": "suns-puzzle",
+  "description": "鲨之星消除游戏 - 孙颖莎主题 3-Tiles 游戏",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

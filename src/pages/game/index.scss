@@ -1,0 +1,141 @@
+.game-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx;
+}
+
+.canvas-container {
+  background: #16213e;
+  border-radius: 24rpx;
+  padding: 16rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-canvas {
+  border-radius: 16rpx;
+}
+
+.slot-bar {
+  display: flex;
+  justify-content: center;
+  gap: 16rpx;
+  padding: 24rpx 32rpx;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 24rpx;
+  margin-bottom: 32rpx;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slot {
+  width: 80rpx;
+  height: 80rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.slot-icon {
+  font-size: 48rpx;
+}
+
+.tool-bar {
+  display: flex;
+  justify-content: center;
+  gap: 24rpx;
+  width: 100%;
+}
+
+.tool-btn {
+  flex: 1;
+  padding: 20rpx 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 28rpx;
+  border-radius: 16rpx;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &::after {
+    border: none;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    color: #666666;
+  }
+}
+
+.game-over-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a2e;
+  border-radius: 32rpx;
+  padding: 64rpx 48rpx;
+  text-align: center;
+  width: 80%;
+  max-width: 600rpx;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 16rpx;
+}
+
+.modal-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #a0a0a0;
+  margin-bottom: 48rpx;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.modal-btn {
+  padding: 28rpx 0;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 16rpx;
+  border: none;
+
+  &::after {
+    border: none;
+  }
+
+  &.primary {
+    background: linear-gradient(135deg, #FF6B6B, #ee5a5a);
+    color: white;
+  }
+
+  &.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
